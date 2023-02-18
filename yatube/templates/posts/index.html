@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+  {% block title %}
+  {{ title }}
+  {% endblock title %}
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная страница проекта!</title>
+</head>
+<body>
+  {% block content %}
+    <main>
+      <div class="container py-5">
+        <h1> {{ text }} </h1>
+        <article>
+          {% for post in posts %}
+          <ul>
+            <li>
+              Автор: {{ post.author.get_full_name }}
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+            <li>
+              Группа: {{ post.group.title }}
+            </li>
+          </ul>
+          <p>
+            {{ post.text }}
+          </p>
+          {% if post.group %}
+            <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+          {% endif %}
+         {% if not forloop.last %}
+          <hr>{% endif %}
+        {% endfor %}
+        </article>
+      </div>
+    </main>
+  {% endblock content %}
+</body>
+</html>
+
